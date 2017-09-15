@@ -7,11 +7,12 @@ MAINTAINER "Carl Boettiger and Dirk Eddelbuettel" rocker-maintainers@eddelbuette
 
 ## Set a default user. Available via runtime flag `--user docker` 
 ## Add user to 'staff' group, granting them write privileges to /usr/local/lib/R/site.library
-## User should also have & own a home directory (for rstudio or linked volumes to work properly). 
-RUN useradd docker \
+
+ENV HOME /home/docker
+
+RUN useradd -u 1001 -r -g 0 -d ${HOME} -s /sbin/nologin -c "Default Application User" default \
 	&& mkdir /home/docker \
-	&& chown docker:docker /home/docker \
-	&& addgroup docker staff
+	&& chown 1001:1001 /home/docker
 
 RUN apt-get update \ 
 	&& apt-get install -y --no-install-recommends \
@@ -56,10 +57,6 @@ RUN apt-get update \
 	&& install.r docopt \
 	&& rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
 	&& rm -rf /var/lib/apt/lists/*
-
-ENV HOME /
-
-RUN useradd -u 1001 -r -g 0 -d ${HOME} -s /sbin/nologin -c "Default Application User" default
 
 ENV HOME /
 
