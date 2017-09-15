@@ -57,4 +57,4 @@ RUN apt-get update \
 	&& rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
 	&& rm -rf /var/lib/apt/lists/*
 
-CMD ["/usr/bin/R --vanilla"]
+CMD ["/usr/bin/R","--vanilla"]
