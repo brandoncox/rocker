@@ -57,4 +57,12 @@ RUN apt-get update \
 	&& rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
 	&& rm -rf /var/lib/apt/lists/*
 
-CMD ["/usr/bin/R","--vanilla"]
+RUN useradd -u 1001 -r -g 0 -d ${HOME} -s /sbin/nologin -c "Default Application User" default
+
+ENV HOME /
+
+USER 1001
+
+WORKDIR ${HOME}
+
+
